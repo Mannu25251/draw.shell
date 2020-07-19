@@ -1,0 +1,27 @@
+#!/bin/bash
+
+if [ $#  -ge 2 ]; then
+    arguments=("$@")
+    for i in "${!arguments[@]}"; do
+        arg=("${arguments[$i]}")
+        size=$(echo $arg | wc -c)
+        sz=$(( $size + 1 ))
+
+        topbottom=$(yes '-' | head -n "$sz" | tr -d '\n' )
+        j=$(( $i + 1))
+
+        #Print Flow Chart
+        arr1+=($(echo "+$topbottom+..."))
+        if [ $j -eq $# ]; then
+           arr2+=($(echo "| $arg |"))
+
+        else
+           arr2+=($(echo "| $arg |-->"))
+        fi
+        arr3+=($(echo "+$topbottom+..."))
+    done
+    echo ${arr1[@]} | sed 's/\(\.\.\.\)/   /g'
+    echo ${arr2[@]} | sed 's/\./ /g'
+    echo ${arr3[@]} | sed 's/\(\.\.\.\)/   /g'
+
+fi
